@@ -1,63 +1,78 @@
-name: G-SHOP STEALTH ELITE
+name: G-SHOP FINAL WAR VERSION
 on:
   workflow_dispatch:
   schedule:
-    - cron: '15 * * * *'
+    - cron: '*/50 * * * *'
 
 jobs:
-  elite-boost:
+  war-mode:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Advanced Environment
-        run: |
-          pip install selenium webdriver-manager fake-useragent
+      - name: Setup Ultimate Stealth
+        run: pip install selenium webdriver-manager fake-useragent
           
-      - name: Run USA Multi-Profile Session
+      - name: USA-Canada Organic Blast
         run: |
           python - <<EOF
+          import time
+          import random
           from selenium import webdriver
           from selenium.webdriver.chrome.options import Options
+          from selenium.webdriver.common.by import By
           from selenium.webdriver.chrome.service import Service
           from webdriver_manager.chrome import ChromeDriverManager
           from fake_useragent import UserAgent
-          import time
-          import random
 
           ua = UserAgent()
-          video_url = "https://www.youtube.com/watch?v=4GskU7ybcZQ"
+          channel_url = "https://www.youtube.com/@Bodycamfootage930/videos"
 
-          def run_session(session_num):
+          def run_final_war_session(id):
               options = Options()
               options.add_argument("--headless")
               options.add_argument("--no-sandbox")
-              options.add_argument("--disable-dev-shm-usage")
-              
-              # Har baar alag browser identity (Fake UserAgent)
               options.add_argument(f"user-agent={ua.random}")
+              # SAKHT USA IDENTITY
+              options.add_argument("--lang=en-US")
+              options.add_argument("--window-size=1920,1080")
               
-              # Har baar alag window size (Human touch)
-              res = ["1920,1080", "1366,768", "1536,864", "1440,900"]
-              options.add_argument(f"--window-size={random.choice(res)}")
-
               driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
               
               try:
-                  print(f"Starting Elite USA Session {session_num}...")
-                  driver.get(video_url)
+                  print(f"--- USA War Session {id} Launch ---")
+                  # 1. Google se YouTube par aana (Organic Path)
+                  driver.get("https://www.google.com")
+                  time.sleep(5)
+                  driver.get(channel_url)
+                  time.sleep(12)
                   
-                  # Human-like interaction: Scroll aur Random Watch Time
-                  driver.execute_script(f"window.scrollTo(0, {random.randint(300, 700)});")
-                  
-                  # 60 se 120 seconds tak dekhega (Solid Watch Time)
-                  duration = random.randint(60, 120)
-                  time.sleep(duration)
-                  
-                  print(f"Session {session_num} Success: Watched for {duration}s")
+                  # 2. Channel page se video uthana
+                  videos = driver.find_elements(By.XPATH, '//*[@id="video-title-link"]')
+                  if videos:
+                      target = random.choice(videos)
+                      v_title = target.get_attribute('title')
+                      print(f"Targeting USA Interest: {v_title}")
+                      target.click()
+                      time.sleep(5)
+                      
+                      # 3. Solid Watch Time (6 to 10 Minutes)
+                      # Isse Retention 80% upar jayega
+                      watch_sec = random.randint(360, 600)
+                      
+                      # Human Scroll Pattern
+                      for _ in range(4):
+                          driver.execute_script(f"window.scrollBy(0, {random.randint(400, 700)});")
+                          time.sleep(random.randint(15, 30))
+                      
+                      time.sleep(watch_sec)
+                      print(f"DONE: {v_title} secured {watch_sec}s USA Watch Time.")
+              except Exception as e:
+                  print(f"Error: {e}")
               finally:
                   driver.quit()
 
-          # Ek round mein 5 heavy sessions (Quality over Quantity)
+          # Batch execution (Quality First)
           for i in range(1, 6):
-              run_session(i)
-              time.sleep(random.randint(5, 15)) # Break between sessions
+              run_final_war_session(i)
+              time.sleep(random.randint(30, 60))
           EOF
+          
